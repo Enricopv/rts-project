@@ -2,12 +2,16 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-public class PlayerController : MonoBehaviour
+interface ISelectable
 {
-  //   public Camera cam;
+  void setSelected();
+  void setDeselect();
+}
+public class PlayerController : MonoBehaviour, ISelectable
+{
 
-  public Color baseColor = new Color(93, 242, 243);
-  public Color selectedColor = new Color(93, 243, 98);
+  private Color baseColor;
+  private Color selectedColor;
 
   public NavMeshAgent agent;
 
