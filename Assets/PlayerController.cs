@@ -6,23 +6,26 @@ public class PlayerController : MonoBehaviour
 {
   //   public Camera cam;
 
+  public Color baseColor = new Color(93, 242, 243);
+  public Color selectedColor = new Color(93, 243, 98);
+
   public NavMeshAgent agent;
 
-  // Update is called once per frame
-  //   void Update()
-  //   {
-  //     if (Input.GetMouseButtonDown(1))
-  //     {
-  //       Ray ray = cam.ScreenPointToRay(Input.mousePosition);
-  //       RaycastHit hit;
 
-  //       if (Physics.Raycast(ray, out hit))
-  //       {
-  //         // MOVE OUR AGENT
-  //         agent.SetDestination(hit.point);
-  //       }
-  //     }
-  //   }
+
+  public void setSelected()
+  {
+    Material material = GetComponent<Renderer>().material;
+    ColorUtility.TryParseHtmlString("#5DF386", out selectedColor);
+    material.color = selectedColor;
+  }
+
+  public void setDeselect()
+  {
+    Material material = GetComponent<Renderer>().material;
+    ColorUtility.TryParseHtmlString("#5DF3F3", out baseColor);
+    material.color = baseColor;
+  }
 
   public void MoveUnit(Vector3 point)
   {
