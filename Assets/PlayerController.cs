@@ -4,23 +4,28 @@ using UnityEngine.AI;
 
 public class PlayerController : MonoBehaviour
 {
-  public Camera cam;
+  //   public Camera cam;
 
   public NavMeshAgent agent;
 
   // Update is called once per frame
-  void Update()
-  {
-    if (Input.GetMouseButtonDown(1))
-    {
-      Ray ray = cam.ScreenPointToRay(Input.mousePosition);
-      RaycastHit hit;
+  //   void Update()
+  //   {
+  //     if (Input.GetMouseButtonDown(1))
+  //     {
+  //       Ray ray = cam.ScreenPointToRay(Input.mousePosition);
+  //       RaycastHit hit;
 
-      if (Physics.Raycast(ray, out hit))
-      {
-        // MOVE OUR AGENT
-        agent.SetDestination(hit.point);
-      }
-    }
+  //       if (Physics.Raycast(ray, out hit))
+  //       {
+  //         // MOVE OUR AGENT
+  //         agent.SetDestination(hit.point);
+  //       }
+  //     }
+  //   }
+
+  public void MoveUnit(Vector3 point)
+  {
+    agent.SetDestination(point);
   }
 }
