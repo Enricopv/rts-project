@@ -73,121 +73,13 @@ public class RTSController : MonoBehaviour
         // do something with entry.Value or entry.Key
         unit.Value.setDeselect();
       }
-      // units.ForEach(delegate (UnitController unit)
-      // {
-      //   unit.setDeselect();
-      // });
+
       units.Clear();
     }
 
 
     SelectUnits();
-    // // [Left Click] to select and add units to our selection
-    // if (Input.GetMouseButtonDown(0))
-    // {
 
-    //   // Get info on where the mouse hit
-    //   Ray mouseToWorldRay = cam.ScreenPointToRay(Input.mousePosition);
-    //   RaycastHit hitInfo;
-
-
-    //   // Check if something got and hit and see if it has a PlayerController Component
-    //   // If so, lets add it to our selected Units and make call setSelected on the unit
-    //   if (Physics.Raycast(mouseToWorldRay, out hitInfo, 100))
-    //   {
-    //     GameObject inWorldObject = hitInfo.transform.gameObject;
-
-
-    //     // :: I'd rather do an interface thing here
-    //     UnitController controller = inWorldObject.GetComponent<UnitController>();
-
-
-    //     if (controller != null)
-    //     {
-
-    //       if (Input.GetKey(copyKey))
-    //       {
-    //         UpdateSelection(controller, !controller.isSelected);
-    //       }
-    //       else
-    //       {
-    //         Debug.Log("DONT RUN");
-    //         ClearSelected();
-    //         UpdateSelection(controller, true);
-    //       }
-
-    //       //If we clicked on a Selectable, we don't want to enable our SelectionBox
-    //       return;
-    //     }
-
-    //   }
-    //   if (selectionBox == null)
-    //     return;
-    //   //Storing these variables for the selectionBox
-    //   startScreenPos = Input.mousePosition;
-    //   isSelecting = true;
-    // }
-
-    // //If we never set the selectionBox variable in the inspector, we are simply not able to drag the selectionBox to easily select multiple objects. 'Regular' selection should still work
-    // if (selectionBox == null)
-    //   return;
-
-    // // :: [Left Click Goes Up] We finished our selection box when the key is released
-    // if (Input.GetMouseButtonUp(0))
-    // {
-    //   selectionBox.gameObject.SetActive(false);
-    //   isSelecting = false;
-    // }
-
-
-    // if (isSelecting)
-    // {
-    //   selectionBox.gameObject.SetActive(true);
-    //   Bounds b = new Bounds();
-    //   //The center of the bounds is inbetween startpos and current pos
-    //   b.center = Vector3.Lerp(startScreenPos, Input.mousePosition, 0.5f);
-    //   //We make the size absolute (negative bounds don't contain anything)
-    //   b.size = new Vector3(Mathf.Abs(startScreenPos.x - Input.mousePosition.x),
-    //       Mathf.Abs(startScreenPos.y - Input.mousePosition.y),
-    //       0);
-
-    //   //To display our selectionbox image in the same place as our bounds
-    //   rt.position = b.center;
-    //   rt.sizeDelta = canvas.transform.InverseTransformVector(b.size);
-
-
-    //   //Looping through all the selectables in our world (automatically added/removed through the Selectable OnEnable/OnDisable)
-    //   foreach (KeyValuePair<string, UnitController> unit in allSelectableUnits)
-    //   {
-    //     //If the screenPosition of the worldobject is within our selection bounds, we can add it to our selection
-    //     Vector3 screenPos = cam.WorldToScreenPoint(unit.Value.transform.position);
-    //     screenPos.z = 0;
-    //     // Debug.Log("Unit in there? " + b.Contains(screenPos));
-    //     // UpdateSelection(unit.Value, (b.Contains(screenPos)));
-    //     if (b.Contains(screenPos))
-    //     {
-    //       HightlighUnit(unit.Value);
-    //     }
-    //   }
-    // }
-
-
-
-    // // :: [Right Click] to call the units to move in a direction
-    // if (Input.GetMouseButtonDown(1))
-    // {
-    //   Ray ray = cam.ScreenPointToRay(Input.mousePosition);
-    //   RaycastHit hit;
-
-    //   if (Physics.Raycast(ray, out hit))
-    //   {
-    //     foreach (KeyValuePair<string, UnitController> unit in units)
-    //     {
-    //       unit.Value.MoveUnit(hit.point);
-    //     }
-
-    //   }
-    // }
   }
 
   void SelectUnits()
@@ -240,26 +132,6 @@ public class RTSController : MonoBehaviour
             units.Add(unit.Value.unitId, unit.Value);
           }
         }
-
-
-        // foreach (KeyValuePair<string, UnitController> unit in allSelectableUnits)
-        // {
-
-        //   //Is this unit within the square
-        //   if (IsWithinPolygon(unit.Value.transform.position))
-        //   {
-        //     // unit.GetComponent<MeshRenderer>().material = selectedMaterial;
-
-        //     units.Add(unit.Value.unitId, unit.Value);
-        //   }
-        //   //Otherwise deselect the unit if it's not in the square
-        //   else
-        //   {
-        //     // unit.GetComponent<MeshRenderer>().material = normalMaterial;
-        //   }
-        // }
-
-
       }
 
     }
