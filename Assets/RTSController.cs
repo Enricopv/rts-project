@@ -50,8 +50,9 @@ public class RTSController : MonoBehaviour
 
   void Start()
   {
+    // We want to have a catalog of all selectable units for iterating over so we don't have to
+    // Always be doing a call for all objects.
     var allUnitControllers = FindObjectsOfType<MonoBehaviour>().OfType<ISelectable>();
-
     foreach (UnitController unit in allUnitControllers)
     {
       allSelectableUnits.Add(unit.unitId, unit);
@@ -63,21 +64,36 @@ public class RTSController : MonoBehaviour
   void Update()
   {
 
-    // [Escape] to clear unit selection
-    if (Input.GetKey(KeyCode.Escape))
-    {
-      foreach (KeyValuePair<string, UnitController> unit in units)
-      {
-        // do something with entry.Value or entry.Key
-        unit.Value.setDeselect();
-      }
+    // [Escape]
+    PressEscape();
 
-      units.Clear();
-    }
+    // [Left Click]
 
+    // [Left Click - Hold]
+
+    // [Right Click]
 
     SelectUnits();
 
+  }
+
+  void PressLeftClick()
+  {
+    if (Input.GetMouseButtonDown(0))
+    {
+      clickTime = Time.time;
+
+      //We dont yet know if we are drawing a square, but we need the first coordinate in case we do draw a square
+      RaycastHit hit;
+      //Fire ray from camera
+      if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, 200f, 1 << 8))
+      {
+        //The corner position of the square
+        squareStartPos = hit.point;
+
+      }
+      startScreenPos = Input.mousePosition;
+    }
   }
 
   void SelectUnits()
@@ -238,7 +254,20 @@ public class RTSController : MonoBehaviour
     }
   }
 
+  void PressEscape()
+  {
+    // [Escape] to clear unit selection
+    if (Input.GetKey(KeyCode.Escape))
+    {
+      foreach (KeyValuePair<string, UnitController> unit in units)
+      {
+        // do something with entry.Value or entry.Key
+        unit.Value.setDeselect();
+      }
 
+      units.Clear();
+    }
+  }
 
   void HightlighUnit(UnitController unit)
   {
