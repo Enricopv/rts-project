@@ -12,9 +12,7 @@ public class RTSController : MonoBehaviour
   public Image selectionBox;
   public KeyCode copyKey = KeyCode.LeftControl;
   private Vector3 startScreenPos;
-  private BoxCollider worldCollider;
   private RectTransform rt;
-  private bool isSelecting;
   public Dictionary<string, UnitController> units = new Dictionary<string, UnitController>();
   public Dictionary<string, UnitController> allSelectableUnits = new Dictionary<string, UnitController>();
   //The selection squares 4 corner positions
@@ -228,8 +226,6 @@ public class RTSController : MonoBehaviour
         //If the screenPosition of the worldobject is within our selection bounds, we can add it to our selection
         Vector3 screenPos = cam.WorldToScreenPoint(unit.Value.transform.position);
         screenPos.z = 0;
-        // Debug.Log("Unit in there? " + b.Contains(screenPos));
-        // UpdateSelection(unit.Value, (b.Contains(screenPos)));
         if (b.Contains(screenPos))
         {
           HightlighUnit(unit.Value);
@@ -242,55 +238,12 @@ public class RTSController : MonoBehaviour
     }
   }
 
-  bool IsWithinPolygon(Vector3 unitPos)
-  {
-    bool isWithinPolygon = false;
 
-    //The polygon forms 2 triangles, so we need to check if a point is within any of the triangles
-    //Triangle 1: TL - BL - TR
-    if (IsWithinTriangle(unitPos, TL, BL, TR))
-    {
-      return true;
-    }
-
-    //Triangle 2: TR - BL - BR
-    if (IsWithinTriangle(unitPos, TR, BL, BR))
-    {
-      return true;
-    }
-
-    return isWithinPolygon;
-  }
-
-  //Is a point within a triangle
-  //From http://totologic.blogspot.se/2014/01/accurate-point-in-triangle-test.html
-  bool IsWithinTriangle(Vector3 p, Vector3 p1, Vector3 p2, Vector3 p3)
-  {
-    bool isWithinTriangle = false;
-
-    //Need to set z -> y because of other coordinate system
-    float denominator = ((p2.z - p3.z) * (p1.x - p3.x) + (p3.x - p2.x) * (p1.z - p3.z));
-
-    float a = ((p2.z - p3.z) * (p.x - p3.x) + (p3.x - p2.x) * (p.z - p3.z)) / denominator;
-    float b = ((p3.z - p1.z) * (p.x - p3.x) + (p1.x - p3.x) * (p.z - p3.z)) / denominator;
-    float c = 1 - a - b;
-
-    //The point is within the triangle if 0 <= a <= 1 and 0 <= b <= 1 and 0 <= c <= 1
-    if (a >= 0f && a <= 1f && b >= 0f && b <= 1f && c >= 0f && c <= 1f)
-    {
-      isWithinTriangle = true;
-    }
-
-    return isWithinTriangle;
-  }
 
   void HightlighUnit(UnitController unit)
   {
     unit.setHighlight();
   }
-
-
-
 
 
   void UpdateSelection(UnitController unit, bool value)
