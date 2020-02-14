@@ -226,7 +226,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 272755731}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 14e840e220e0619498f1263aa715078f, type: 3}
+  m_Script: {fileID: 11500000, guid: e7d008373441df84b8619e6c4af41428, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   agent: {fileID: 272755737}
@@ -375,7 +375,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 647830439}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 14e840e220e0619498f1263aa715078f, type: 3}
+  m_Script: {fileID: 11500000, guid: e7d008373441df84b8619e6c4af41428, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   agent: {fileID: 647830441}
@@ -844,7 +844,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 833240487}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 14e840e220e0619498f1263aa715078f, type: 3}
+  m_Script: {fileID: 11500000, guid: e7d008373441df84b8619e6c4af41428, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   agent: {fileID: 833240489}
@@ -1257,10 +1257,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1919311167}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2e1455498bcf9b64d8d8d24f9ef730d7, type: 3}
+  m_Script: {fileID: 11500000, guid: a1129ef9b52c2ef44aec51493c95d7bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   cam: {fileID: 963194227}
+  canvas: {fileID: 0}
+  selectionBox: {fileID: 0}
+  copyKey: 306
   units: []
 --- !u!4 &1919311169
 Transform:
