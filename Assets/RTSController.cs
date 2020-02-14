@@ -16,10 +16,19 @@ public class RTSController : MonoBehaviour
   private RectTransform rt;
   private bool isSelecting;
   public Dictionary<string, UnitController> units = new Dictionary<string, UnitController>();
+  public Dictionary<string, UnitController> allSelectableUnits = new Dictionary<string, UnitController>();
+  //The selection squares 4 corner positions
+  Vector3 TL, TR, BL, BR;
 
-  private Vector2 startPos;
+  //To determine if we are clicking with left mouse or holding down left mouse
+  float delay = 0.1f;
+  float clickTime = 0f;
 
+  Vector3 squareStartPos;
+  Vector3 squareEndPos;
 
+  //If it was possible to create a square
+  bool hasCreatedSquare;
 
   void Awake()
   {
@@ -36,8 +45,21 @@ public class RTSController : MonoBehaviour
       rt.anchorMax = Vector2.one * .5f;
       selectionBox.gameObject.SetActive(false);
     }
+
+
+
   }
 
+  void Start()
+  {
+    var allUnitControllers = FindObjectsOfType<MonoBehaviour>().OfType<ISelectable>();
+
+    foreach (UnitController unit in allUnitControllers)
+    {
+      allSelectableUnits.Add(unit.unitId, unit);
+    }
+
+  }
 
   // Update is called once per frame
   void Update()
@@ -59,9 +81,217 @@ public class RTSController : MonoBehaviour
     }
 
 
+    SelectUnits();
+    // // [Left Click] to select and add units to our selection
+    // if (Input.GetMouseButtonDown(0))
+    // {
 
-    // [Left Click] to select and add units to our selection
+    //   // Get info on where the mouse hit
+    //   Ray mouseToWorldRay = cam.ScreenPointToRay(Input.mousePosition);
+    //   RaycastHit hitInfo;
+
+
+    //   // Check if something got and hit and see if it has a PlayerController Component
+    //   // If so, lets add it to our selected Units and make call setSelected on the unit
+    //   if (Physics.Raycast(mouseToWorldRay, out hitInfo, 100))
+    //   {
+    //     GameObject inWorldObject = hitInfo.transform.gameObject;
+
+
+    //     // :: I'd rather do an interface thing here
+    //     UnitController controller = inWorldObject.GetComponent<UnitController>();
+
+
+    //     if (controller != null)
+    //     {
+
+    //       if (Input.GetKey(copyKey))
+    //       {
+    //         UpdateSelection(controller, !controller.isSelected);
+    //       }
+    //       else
+    //       {
+    //         Debug.Log("DONT RUN");
+    //         ClearSelected();
+    //         UpdateSelection(controller, true);
+    //       }
+
+    //       //If we clicked on a Selectable, we don't want to enable our SelectionBox
+    //       return;
+    //     }
+
+    //   }
+    //   if (selectionBox == null)
+    //     return;
+    //   //Storing these variables for the selectionBox
+    //   startScreenPos = Input.mousePosition;
+    //   isSelecting = true;
+    // }
+
+    // //If we never set the selectionBox variable in the inspector, we are simply not able to drag the selectionBox to easily select multiple objects. 'Regular' selection should still work
+    // if (selectionBox == null)
+    //   return;
+
+    // // :: [Left Click Goes Up] We finished our selection box when the key is released
+    // if (Input.GetMouseButtonUp(0))
+    // {
+    //   selectionBox.gameObject.SetActive(false);
+    //   isSelecting = false;
+    // }
+
+
+    // if (isSelecting)
+    // {
+    //   selectionBox.gameObject.SetActive(true);
+    //   Bounds b = new Bounds();
+    //   //The center of the bounds is inbetween startpos and current pos
+    //   b.center = Vector3.Lerp(startScreenPos, Input.mousePosition, 0.5f);
+    //   //We make the size absolute (negative bounds don't contain anything)
+    //   b.size = new Vector3(Mathf.Abs(startScreenPos.x - Input.mousePosition.x),
+    //       Mathf.Abs(startScreenPos.y - Input.mousePosition.y),
+    //       0);
+
+    //   //To display our selectionbox image in the same place as our bounds
+    //   rt.position = b.center;
+    //   rt.sizeDelta = canvas.transform.InverseTransformVector(b.size);
+
+
+    //   //Looping through all the selectables in our world (automatically added/removed through the Selectable OnEnable/OnDisable)
+    //   foreach (KeyValuePair<string, UnitController> unit in allSelectableUnits)
+    //   {
+    //     //If the screenPosition of the worldobject is within our selection bounds, we can add it to our selection
+    //     Vector3 screenPos = cam.WorldToScreenPoint(unit.Value.transform.position);
+    //     screenPos.z = 0;
+    //     // Debug.Log("Unit in there? " + b.Contains(screenPos));
+    //     // UpdateSelection(unit.Value, (b.Contains(screenPos)));
+    //     if (b.Contains(screenPos))
+    //     {
+    //       HightlighUnit(unit.Value);
+    //     }
+    //   }
+    // }
+
+
+
+    // // :: [Right Click] to call the units to move in a direction
+    // if (Input.GetMouseButtonDown(1))
+    // {
+    //   Ray ray = cam.ScreenPointToRay(Input.mousePosition);
+    //   RaycastHit hit;
+
+    //   if (Physics.Raycast(ray, out hit))
+    //   {
+    //     foreach (KeyValuePair<string, UnitController> unit in units)
+    //     {
+    //       unit.Value.MoveUnit(hit.point);
+    //     }
+
+    //   }
+    // }
+  }
+
+  void SelectUnits()
+  {
+    //Are we clicking with left mouse or holding down left mouse
+    bool isClicking = false;
+    bool isHoldingDown = false;
+
+    //Click the mouse button
     if (Input.GetMouseButtonDown(0))
+    {
+      clickTime = Time.time;
+
+      //We dont yet know if we are drawing a square, but we need the first coordinate in case we do draw a square
+      RaycastHit hit;
+      //Fire ray from camera
+      if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, 200f, 1 << 8))
+      {
+        //The corner position of the square
+        squareStartPos = hit.point;
+
+      }
+      startScreenPos = Input.mousePosition;
+    }
+
+    //Release the mouse button
+    if (Input.GetMouseButtonUp(0))
+    {
+      if (Time.time - clickTime <= delay)
+      {
+        isClicking = true;
+      }
+
+      //Select all units within the square if we have created a square
+      if (hasCreatedSquare)
+      {
+        hasCreatedSquare = false;
+
+        //Deactivate the square selection image
+        selectionBox.gameObject.SetActive(false);
+
+        //Clear the list with selected unit
+        // ClearSelected();
+
+
+        foreach (KeyValuePair<string, UnitController> unit in allSelectableUnits)
+        {
+          if (unit.Value.isHighlighted)
+          {
+            units.Add(unit.Value.unitId, unit.Value);
+          }
+        }
+
+
+        // foreach (KeyValuePair<string, UnitController> unit in allSelectableUnits)
+        // {
+
+        //   //Is this unit within the square
+        //   if (IsWithinPolygon(unit.Value.transform.position))
+        //   {
+        //     // unit.GetComponent<MeshRenderer>().material = selectedMaterial;
+
+        //     units.Add(unit.Value.unitId, unit.Value);
+        //   }
+        //   //Otherwise deselect the unit if it's not in the square
+        //   else
+        //   {
+        //     // unit.GetComponent<MeshRenderer>().material = normalMaterial;
+        //   }
+        // }
+
+
+      }
+
+    }
+
+
+    // :: [Right Click] to call the units to move in a direction
+    if (Input.GetMouseButtonDown(1))
+    {
+      Ray ray = cam.ScreenPointToRay(Input.mousePosition);
+      RaycastHit hit;
+
+      if (Physics.Raycast(ray, out hit))
+      {
+        foreach (KeyValuePair<string, UnitController> unit in units)
+        {
+          unit.Value.MoveUnit(hit.point);
+        }
+
+      }
+    }
+
+    //Holding down the mouse button
+    if (Input.GetMouseButton(0))
+    {
+      if (Time.time - clickTime > delay)
+      {
+        isHoldingDown = true;
+      }
+    }
+
+    //Select one unit with left mouse and deselect all units with left mouse by clicking on what's not a unit
+    if (isClicking)
     {
 
       // Get info on where the mouse hit
@@ -89,6 +319,7 @@ public class RTSController : MonoBehaviour
           }
           else
           {
+            Debug.Log("DONT RUN");
             ClearSelected();
             UpdateSelection(controller, true);
           }
@@ -98,27 +329,14 @@ public class RTSController : MonoBehaviour
         }
 
       }
-      if (selectionBox == null)
-        return;
-      //Storing these variables for the selectionBox
-      startScreenPos = Input.mousePosition;
-      isSelecting = true;
     }
 
-    //If we never set the selectionBox variable in the inspector, we are simply not able to drag the selectionBox to easily select multiple objects. 'Regular' selection should still work
-    if (selectionBox == null)
-      return;
-
-    // [Left Click Goes Up] We finished our selection box when the key is released
-    if (Input.GetMouseButtonUp(0))
+    //Drag the mouse to select all units within the square
+    if (isHoldingDown)
     {
-      isSelecting = false;
-    }
+      hasCreatedSquare = true;
 
-
-    if (isSelecting)
-    {
-      Debug.Log("SELECTING");
+      selectionBox.gameObject.SetActive(true);
       Bounds b = new Bounds();
       //The center of the bounds is inbetween startpos and current pos
       b.center = Vector3.Lerp(startScreenPos, Input.mousePosition, 0.5f);
@@ -131,34 +349,76 @@ public class RTSController : MonoBehaviour
       rt.position = b.center;
       rt.sizeDelta = canvas.transform.InverseTransformVector(b.size);
 
+
       //Looping through all the selectables in our world (automatically added/removed through the Selectable OnEnable/OnDisable)
-      foreach (KeyValuePair<string, UnitController> unit in units)
+      foreach (KeyValuePair<string, UnitController> unit in allSelectableUnits)
       {
         //If the screenPosition of the worldobject is within our selection bounds, we can add it to our selection
         Vector3 screenPos = cam.WorldToScreenPoint(unit.Value.transform.position);
         screenPos.z = 0;
-        UpdateSelection(unit.Value, (b.Contains(screenPos)));
-      }
-    }
-
-
-
-    // [Right Click] to call the units to move in a direction
-    if (Input.GetMouseButtonDown(1))
-    {
-      Ray ray = cam.ScreenPointToRay(Input.mousePosition);
-      RaycastHit hit;
-
-      if (Physics.Raycast(ray, out hit))
-      {
-        foreach (KeyValuePair<string, UnitController> unit in units)
+        // Debug.Log("Unit in there? " + b.Contains(screenPos));
+        // UpdateSelection(unit.Value, (b.Contains(screenPos)));
+        if (b.Contains(screenPos))
         {
-          unit.Value.MoveUnit(hit.point);
+          HightlighUnit(unit.Value);
         }
-
+        else
+        {
+          unit.Value.removeHighlight();
+        }
       }
     }
   }
+
+  bool IsWithinPolygon(Vector3 unitPos)
+  {
+    bool isWithinPolygon = false;
+
+    //The polygon forms 2 triangles, so we need to check if a point is within any of the triangles
+    //Triangle 1: TL - BL - TR
+    if (IsWithinTriangle(unitPos, TL, BL, TR))
+    {
+      return true;
+    }
+
+    //Triangle 2: TR - BL - BR
+    if (IsWithinTriangle(unitPos, TR, BL, BR))
+    {
+      return true;
+    }
+
+    return isWithinPolygon;
+  }
+
+  //Is a point within a triangle
+  //From http://totologic.blogspot.se/2014/01/accurate-point-in-triangle-test.html
+  bool IsWithinTriangle(Vector3 p, Vector3 p1, Vector3 p2, Vector3 p3)
+  {
+    bool isWithinTriangle = false;
+
+    //Need to set z -> y because of other coordinate system
+    float denominator = ((p2.z - p3.z) * (p1.x - p3.x) + (p3.x - p2.x) * (p1.z - p3.z));
+
+    float a = ((p2.z - p3.z) * (p.x - p3.x) + (p3.x - p2.x) * (p.z - p3.z)) / denominator;
+    float b = ((p3.z - p1.z) * (p.x - p3.x) + (p1.x - p3.x) * (p.z - p3.z)) / denominator;
+    float c = 1 - a - b;
+
+    //The point is within the triangle if 0 <= a <= 1 and 0 <= b <= 1 and 0 <= c <= 1
+    if (a >= 0f && a <= 1f && b >= 0f && b <= 1f && c >= 0f && c <= 1f)
+    {
+      isWithinTriangle = true;
+    }
+
+    return isWithinTriangle;
+  }
+
+  void HightlighUnit(UnitController unit)
+  {
+    unit.setHighlight();
+  }
+
+
+
 
 
   void UpdateSelection(UnitController unit, bool value)
@@ -178,7 +438,7 @@ public class RTSController : MonoBehaviour
       }
       else
       {
-        Debug.Log("unit not removed");
+        // Debug.Log("unit not removed");
       }
 
     }
@@ -198,6 +458,7 @@ public class RTSController : MonoBehaviour
     }
     units.Clear();
   }
+
 
 }
 

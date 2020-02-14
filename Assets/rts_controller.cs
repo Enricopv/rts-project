@@ -1,10 +1,10 @@
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
 namespace AnotherController
 {
-  public class SelectionSquare : MonoBehaviour
+  public class rts_controller : MonoBehaviour
   {
     //Add all units in the scene to this array
     public GameObject[] allUnits;
