@@ -54,9 +54,6 @@ public class UnitController : MonoBehaviour, ISelectable
 
   void Awake()
   {
-    // System.Random rng = new System.Random();
-    // generatedId = rng.getRandomString();
-    // Debug.Log("My Id " + generatedId);
     generatedId = this.GetInstanceID().ToString();
   }
 
