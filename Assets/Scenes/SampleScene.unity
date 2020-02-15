@@ -128,6 +128,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3028413965572766777, guid: b695633211fb7dd4e95a6c329f53ff57,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6867870823626345414, guid: b695633211fb7dd4e95a6c329f53ff57,
         type: 3}
       propertyPath: m_Name
@@ -208,7 +213,7 @@ GameObject:
   - component: {fileID: 603479620}
   - component: {fileID: 603479619}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: Canvas RTS Selection
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1099,6 +1104,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3028413965572766777, guid: b695633211fb7dd4e95a6c329f53ff57,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3357581806717264627, guid: b695633211fb7dd4e95a6c329f53ff57,
         type: 3}
       propertyPath: m_RootOrder
@@ -1342,6 +1352,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3028413965572766777, guid: b695633211fb7dd4e95a6c329f53ff57,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6867870823626345414, guid: b695633211fb7dd4e95a6c329f53ff57,
         type: 3}
       propertyPath: m_Name
@@ -1495,6 +1510,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3028413965572766777, guid: b695633211fb7dd4e95a6c329f53ff57,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6867870823626345414, guid: b695633211fb7dd4e95a6c329f53ff57,
         type: 3}
       propertyPath: m_Name
