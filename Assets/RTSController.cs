@@ -16,24 +16,22 @@ namespace RTSGame
 
     private RectTransform rt;
 
-    public Dictionary<string, UnitController> units = new Dictionary<string, UnitController>();
-    public Dictionary<string, UnitController> allSelectableUnits = new Dictionary<string, UnitController>();
     //The selection squares 4 corner positions
-    Vector3 TL, TR, BL, BR;
 
     //To determine if we are clicking with left mouse or holding down left mouse
     float delay = 0.1f;
     float clickTime = 0f;
 
+    Vector3 startScreenPos;
 
     private ControllerState ControllerState;
     //If it was possible to create a square
     bool hasCreatedSquare;
 
-    public bool isHolding = false;
 
     void Awake()
     {
+
       if (canvas == null)
         canvas = FindObjectOfType<Canvas>();
 
@@ -47,22 +45,18 @@ namespace RTSGame
         rt.anchorMax = Vector2.one * .5f;
         selectionBox.gameObject.SetActive(false);
       }
-
-
-
+      ControllerState = new ControllerState();
     }
 
     void Start()
     {
-
       // We want to have a catalog of all selectable units for iterating over so we don't have to
       // Always be doing a call for all objects.
       var allUnitControllers = FindObjectsOfType<MonoBehaviour>().OfType<ISelectable>();
       foreach (UnitController unit in allUnitControllers)
       {
-        allSelectableUnits.Add(unit.unitId, unit);
+        ControllerState.State.SelectableUnits.Add(unit.unitId, unit);
       }
-      ControllerState = new ControllerState(cam, allSelectableUnits);
 
     }
 
@@ -80,15 +74,35 @@ namespace RTSGame
       HoldLeftClick();
 
       // [Right Click]
+      RightClick();
 
-      // SelectUnits();
 
+    }
+
+    void RightClick()
+    {
+      if (Input.GetMouseButtonDown(1))
+      {
+
+        Ray ray = cam.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit))
+        {
+          foreach (KeyValuePair<string, UnitController> unit in ControllerState.State.CurrentSelectedUnits)
+          {
+            unit.Value.MoveUnit(hit.point);
+          }
+        }
+      }
     }
 
     void PressLeftClick()
     {
       if (Input.GetMouseButtonDown(0))
       {
+        ControllerState.State.ClearUnits();
+        startScreenPos = Input.mousePosition;
         Ray mouseToWorldRay = cam.ScreenPointToRay(Input.mousePosition);
         RaycastHit hitInfo;
 
@@ -125,16 +139,54 @@ namespace RTSGame
           clickTime = Time.time;
         }
 
-        if (Time.time - clickTime > 0.3f)
+        if (Time.time - clickTime > 0.1f)
         {
-          Debug.Log("HOLD STARTED!!!");
+          hasCreatedSquare = true;
+
+          selectionBox.gameObject.SetActive(true);
+          Bounds b = new Bounds();
+          //The center of the bounds is inbetween startpos and current pos
+          b.center = Vector3.Lerp(startScreenPos, Input.mousePosition, 0.5f);
+          //We make the size absolute (negative bounds don't contain anything)
+          b.size = new Vector3(Mathf.Abs(startScreenPos.x - Input.mousePosition.x),
+              Mathf.Abs(startScreenPos.y - Input.mousePosition.y),
+              0);
+
+          //To display our selectionbox image in the same place as our bounds
+          rt.position = b.center;
+          rt.sizeDelta = canvas.transform.InverseTransformVector(b.size);
+
+
+          //Looping through all the selectables in our world (automatically added/removed through the Selectable OnEnable/OnDisable)
+          if (ControllerState.State.SelectableUnits.Count > 0)
+          {
+            foreach (KeyValuePair<string, UnitController> unit in ControllerState.State.SelectableUnits)
+            {
+              //If the screenPosition of the worldobject is within our selection bounds, we can add it to our selection
+              Vector3 screenPos = cam.WorldToScreenPoint(unit.Value.transform.position);
+              screenPos.z = 0;
+              if (b.Contains(screenPos))
+              {
+                ControllerState.State.AddUnitHighlight(unit.Value);
+              }
+              else
+              {
+                ControllerState.State.RemoveUnitHightlight(unit.Value);
+              }
+            }
+          }
         }
       }
 
       if (Input.GetMouseButtonUp(0))
       {
-        Debug.Log("I AM RELEASED");
-        clickTime = 0f;
+        if (hasCreatedSquare)
+        {
+          hasCreatedSquare = true;
+          selectionBox.gameObject.SetActive(false);
+          clickTime = 0f;
+          ControllerState.State.AddHighlightedUnits();
+        }
       }
 
 
@@ -150,202 +202,6 @@ namespace RTSGame
       }
     }
 
-    void SelectUnits()
-    {
-
-
-      //Release the mouse button
-      if (Input.GetMouseButtonUp(0))
-      {
-        ControllerState.State.IsHoldingDown = false;
-        if (Time.time - clickTime <= delay)
-        {
-          ControllerState.State.IsClicking = true;
-        }
-        else
-        {
-          ControllerState.State.IsClicking = false;
-        }
-
-        //Select all units within the square if we have created a square
-        if (hasCreatedSquare)
-        {
-          hasCreatedSquare = false;
-
-          //Deactivate the square selection image
-          selectionBox.gameObject.SetActive(false);
-
-          //Clear the list with selected unit
-          // ClearSelected();
-
-
-          foreach (KeyValuePair<string, UnitController> unit in allSelectableUnits)
-          {
-            if (unit.Value.isHighlighted)
-            {
-              units.Add(unit.Value.unitId, unit.Value);
-            }
-          }
-        }
-
-      }
-
-
-      // :: [Right Click] to call the units to move in a direction
-      if (Input.GetMouseButtonDown(1))
-      {
-        Ray ray = cam.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
-
-        if (Physics.Raycast(ray, out hit))
-        {
-          foreach (KeyValuePair<string, UnitController> unit in units)
-          {
-            unit.Value.MoveUnit(hit.point);
-          }
-
-        }
-      }
-
-      //Holding down the mouse button
-      if (Input.GetMouseButton(0))
-      {
-        if (Time.time - clickTime > delay)
-        {
-          ControllerState.State.IsHoldingDown = true;
-        }
-      }
-
-      //Select one unit with left mouse and deselect all units with left mouse by clicking on what's not a unit
-      if (ControllerState.State.IsClicking)
-      {
-
-        // Get info on where the mouse hit
-        Ray mouseToWorldRay = cam.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hitInfo;
-
-
-        // Check if something got and hit and see if it has a PlayerController Component
-        // If so, lets add it to our selected Units and make call setSelected on the unit
-        if (Physics.Raycast(mouseToWorldRay, out hitInfo, 100))
-        {
-          GameObject inWorldObject = hitInfo.transform.gameObject;
-
-
-          // :: I'd rather do an interface thing here
-          UnitController controller = inWorldObject.GetComponent<UnitController>();
-
-
-          if (controller != null)
-          {
-
-            if (Input.GetKey(copyKey))
-            {
-              UpdateSelection(controller, !controller.isSelected);
-            }
-            else
-            {
-              Debug.Log("DONT RUN");
-              ClearSelected();
-              UpdateSelection(controller, true);
-            }
-
-            //If we clicked on a Selectable, we don't want to enable our SelectionBox
-            return;
-          }
-          else
-          {
-
-          }
-
-        }
-      }
-
-      //Drag the mouse to select all units within the square
-      if (ControllerState.State.IsHoldingDown)
-      {
-        hasCreatedSquare = true;
-
-        selectionBox.gameObject.SetActive(true);
-        Bounds b = new Bounds();
-        //The center of the bounds is inbetween startpos and current pos
-        b.center = Vector3.Lerp(ControllerState.State.StartScreenPos, Input.mousePosition, 0.5f);
-        //We make the size absolute (negative bounds don't contain anything)
-        b.size = new Vector3(Mathf.Abs(ControllerState.State.StartScreenPos.x - Input.mousePosition.x),
-            Mathf.Abs(ControllerState.State.StartScreenPos.y - Input.mousePosition.y),
-            0);
-
-        //To display our selectionbox image in the same place as our bounds
-        rt.position = b.center;
-        rt.sizeDelta = canvas.transform.InverseTransformVector(b.size);
-
-
-        //Looping through all the selectables in our world (automatically added/removed through the Selectable OnEnable/OnDisable)
-        foreach (KeyValuePair<string, UnitController> unit in allSelectableUnits)
-        {
-          //If the screenPosition of the worldobject is within our selection bounds, we can add it to our selection
-          Vector3 screenPos = cam.WorldToScreenPoint(unit.Value.transform.position);
-          screenPos.z = 0;
-          if (b.Contains(screenPos))
-          {
-            HightlightUnit(unit.Value);
-          }
-          else
-          {
-            unit.Value.removeHighlight();
-          }
-        }
-      }
-    }
-
-
-
-    void HightlightUnit(UnitController unit)
-    {
-      unit.setHighlight();
-    }
-
-
-    void UpdateSelection(UnitController unit, bool value)
-    {
-      Dictionary<string, UnitController> localUnits = new Dictionary<string, UnitController>(units);
-
-      if (unit.isSelected != value)
-      {
-        localUnits.Add(unit.unitId, unit);
-        unit.setSelected();
-        unit.setHighlight();
-      }
-      else
-      {
-        if (localUnits.Remove(unit.unitId))
-        {
-          unit.setDeselect();
-          unit.removeHighlight();
-        }
-        else
-        {
-          // Debug.Log("unit not removed");
-        }
-
-      }
-      units.Clear();
-      foreach (var lunit in localUnits)
-        units.Add(lunit.Key, lunit.Value);
-    }
-
-
-
-    void ClearSelected()
-    {
-      Dictionary<string, UnitController> localUnits = new Dictionary<string, UnitController>(units);
-      foreach (KeyValuePair<string, UnitController> unit in localUnits)
-      {
-        unit.Value.setDeselect();
-        unit.Value.removeHighlight();
-      }
-      units.Clear();
-    }
 
 
   }

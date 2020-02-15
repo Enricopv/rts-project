@@ -47,31 +47,36 @@ namespace RTSGame
       set { _isHoldingDown = value; }
     }
 
-    public Camera _playerCamera;
-    public Camera PlayerCamera
-    {
-      get { return _playerCamera; }
-      set { _playerCamera = value; }
-    }
+    // public Camera _playerCamera;
+    // public Camera PlayerCamera
+    // {
+    //   get { return _playerCamera; }
+    //   set { _playerCamera = value; }
+    // }
 
     public abstract void AddUnit(UnitController unit);
     public abstract void RemoveUnit(UnitController unit);
 
     public abstract void ClearUnits();
     public abstract void AddHighlightedUnits();
+
+    public abstract void AddUnitHighlight(UnitController unit);
+    public abstract void RemoveUnitHightlight(UnitController unit);
+
+
+
   }
 
   class DefaultState : State
   {
-    public DefaultState(State state) :
-      this(state._playerCamera, state._currentSelectedUnits)
-    {
-    }
+    // public DefaultState(State state)
+    // {
+    // }
 
-    public DefaultState(Camera _playerCamera, Dictionary<string, UnitController> units)
+    public DefaultState()
     {
-      this._currentSelectedUnits = units;
-      this._playerCamera = _playerCamera;
+      // this._currentSelectedUnits = units;
+      // this._playerCamera = _playerCamera;
       Initialize();
     }
 
@@ -85,7 +90,7 @@ namespace RTSGame
     {
       unit.setSelected();
       unit.setHighlight();
-      CurrentSelectedUnits.Add(unit.unitId, unit);
+      _currentSelectedUnits.Add(unit.unitId, unit);
 
     }
 
@@ -93,82 +98,116 @@ namespace RTSGame
     {
       unit.setDeselect();
       unit.removeHighlight();
-      CurrentSelectedUnits.Remove(unit.unitId);
+      _currentSelectedUnits.Remove(unit.unitId);
     }
 
     public override void ClearUnits()
     {
-      foreach (KeyValuePair<string, UnitController> unit in CurrentSelectedUnits)
+      if (_currentSelectedUnits.Count != 0)
       {
-        unit.Value.setDeselect();
-        unit.Value.removeHighlight();
-
-      }
-      CurrentSelectedUnits.Clear();
-    }
-
-    public override void AddHighlightedUnits()
-    {
-      CurrentSelectedUnits.Clear();
-      foreach (KeyValuePair<string, UnitController> unit in SelectableUnits)
-      {
-        if (unit.Value.isHighlighted)
-        {
-          CurrentSelectedUnits.Add(unit.Value.unitId, unit.Value);
-        }
-      }
-    }
-
-    class SelectedState : State
-    {
-      public SelectedState(State state)
-      {
-        Initialize();
-      }
-
-      private void Initialize()
-      {
-
-      }
-
-
-      public override void AddUnit(UnitController unit)
-      {
-        unit.setSelected();
-        unit.setHighlight();
-        CurrentSelectedUnits.Add(unit.unitId, unit);
-      }
-      public override void RemoveUnit(UnitController unit)
-      {
-        unit.setDeselect();
-        unit.removeHighlight();
-        CurrentSelectedUnits.Remove(unit.unitId);
-      }
-
-
-
-      public override void ClearUnits()
-      {
-        foreach (KeyValuePair<string, UnitController> unit in CurrentSelectedUnits)
+        foreach (KeyValuePair<string, UnitController> unit in _currentSelectedUnits)
         {
           unit.Value.setDeselect();
           unit.Value.removeHighlight();
 
         }
-        CurrentSelectedUnits.Clear();
+        _currentSelectedUnits.Clear();
       }
-      public override void AddHighlightedUnits() { }
+
     }
+
+    public override void AddHighlightedUnits()
+    {
+      foreach (KeyValuePair<string, UnitController> unit in _selectableUnits)
+      {
+        if (unit.Value.isHighlighted)
+        {
+          _currentSelectedUnits.Add(unit.Value.unitId, unit.Value);
+        }
+      }
+    }
+    public override void AddUnitHighlight(UnitController unit)
+    {
+      unit.setHighlight();
+    }
+
+    public override void RemoveUnitHightlight(UnitController unit)
+    {
+      unit.removeHighlight();
+    }
+  }
+
+  class SelectedState : State
+  {
+    public SelectedState(State state)
+    {
+      Initialize();
+    }
+
+    private void Initialize()
+    {
+
+    }
+
+
+    public override void AddUnit(UnitController unit)
+    {
+      unit.setSelected();
+      unit.setHighlight();
+      _currentSelectedUnits.Add(unit.unitId, unit);
+    }
+    public override void RemoveUnit(UnitController unit)
+    {
+      unit.setDeselect();
+      unit.removeHighlight();
+      _currentSelectedUnits.Remove(unit.unitId);
+    }
+
+
+
+    public override void ClearUnits()
+    {
+      foreach (KeyValuePair<string, UnitController> unit in _currentSelectedUnits)
+      {
+        unit.Value.setDeselect();
+        unit.Value.removeHighlight();
+
+      }
+      _currentSelectedUnits.Clear();
+    }
+    public override void AddUnitHighlight(UnitController unit)
+    {
+      unit.removeHighlight();
+    }
+
+    public override void RemoveUnitHightlight(UnitController unit)
+    {
+      unit.removeHighlight();
+    }
+    public override void AddHighlightedUnits()
+    {
+      _currentSelectedUnits.Clear();
+      foreach (KeyValuePair<string, UnitController> unit in _selectableUnits)
+      {
+        if (unit.Value.isHighlighted)
+        {
+          _currentSelectedUnits.Add(unit.Value.unitId, unit.Value);
+        }
+      }
+    }
+
 
   }
   class ControllerState
   {
     private State _state;
-    public ControllerState(Camera _playerCamera, Dictionary<string, UnitController> units)
+    public ControllerState()
     {
-      State state = new DefaultState(_playerCamera, units);
+      State state = new DefaultState();
       state.IsClicking = false;
       state.IsHoldingDown = false;
+      state.SelectableUnits = new Dictionary<string, UnitController>();
+      state.CurrentSelectedUnits = new Dictionary<string, UnitController>();
       // state.PlayerCamera = _playerCamera;
       // state.CurrentSelectedUnits = new Dictionary<string, UnitController>();
 
@@ -182,9 +221,6 @@ namespace RTSGame
     }
 
 
-
-
-
   }
-}
 
+}
