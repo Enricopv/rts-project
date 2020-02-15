@@ -30,7 +30,6 @@ namespace RTSGame
 
     public void AddSelectableUnit(UnitController unit)
     {
-      Debug.Log("ADDME");
       SelectableUnits.Add(unit.unitId, unit);
     }
 

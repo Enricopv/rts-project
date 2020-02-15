@@ -52,17 +52,6 @@ namespace RTSGame
       }
     }
 
-    void Start()
-    {
-      // We want to have a catalog of all selectable units for iterating over so we don't have to
-      // Always be doing a call for all objects.
-      // var allUnitControllers = FindObjectsOfType<MonoBehaviour>().OfType<ISelectable>();
-      // foreach (UnitController unit in allUnitControllers)
-      // {
-      //   ControllerState.AddSelectableUnit(unit);
-      // }
-
-    }
 
     // Update is called once per frame
     void Update()
@@ -135,7 +124,6 @@ namespace RTSGame
     void HoldLeftClick()
     {
 
-      // Logic to check if being held
       if (Input.GetMouseButton(0))
       {
         if (clickTime == 0f)
@@ -162,9 +150,10 @@ namespace RTSGame
 
 
           //Looping through all the selectables in our world (automatically added/removed through the Selectable OnEnable/OnDisable)
-          if (ControllerState.GetSelectableUnits().Count > 0)
+          Dictionary<string, UnitController> selectableUnits = ControllerState.GetSelectableUnits();
+          if (selectableUnits.Count > 0)
           {
-            foreach (KeyValuePair<string, UnitController> unit in ControllerState.GetSelectableUnits())
+            foreach (KeyValuePair<string, UnitController> unit in selectableUnits)
             {
               //If the screenPosition of the worldobject is within our selection bounds, we can add it to our selection
               Vector3 screenPos = cam.WorldToScreenPoint(unit.Value.transform.position);

@@ -78,7 +78,8 @@ namespace RTSGame
     void Awake()
     {
       generatedId = this.GetInstanceID().ToString();
-
+      deSelect();
+      removeHighlight();
     }
 
     void Start()
@@ -100,12 +101,19 @@ namespace RTSGame
     public void setHighlight()
     {
       // Material material = GetComponent<Renderer>().material;
-      Material otherMat = GetComponentInChildren<Renderer>().material;
+      // Material otherMat = GetComponentInChildren<Renderer>().material;
 
-      Debug.Log("Other Mat " + otherMat);
-      ColorUtility.TryParseHtmlString("#5DF386", out selectedColor);
+      // Debug.Log("Other Mat " + otherMat);
+      // ColorUtility.TryParseHtmlString("#5DF386", out selectedColor);
+      // otherMat.color = selectedColor;
+
+      Light SpotLight = GetComponentInChildren<Light>();
+
+      SpotLight.intensity = 3;
+
+
+
       // material.color = selectedColor;
-      otherMat.color = selectedColor;
       _isHighlighted = true;
     }
 
@@ -114,10 +122,12 @@ namespace RTSGame
     public void removeHighlight()
     {
       // Material material = GetComponent<Renderer>().material;
-      Material otherMat = GetComponentInChildren<Renderer>().material;
-      ColorUtility.TryParseHtmlString("#5DF3F3", out baseColor);
-      // material.color = baseColor;
-      otherMat.color = baseColor;
+      // Material otherMat = GetComponentInChildren<Renderer>().material;
+      // ColorUtility.TryParseHtmlString("#5DF3F3", out baseColor);
+      // otherMat.color = baseColor;
+      Light SpotLight = GetComponentInChildren<Light>();
+
+      SpotLight.intensity = 0;
       _isHighlighted = false;
     }
 
