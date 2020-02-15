@@ -80,7 +80,7 @@ public class UnitController : MonoBehaviour, ISelectable
   public void setSelected()
   {
     selected = true;
-    setHighlight();
+    // setHighlight();
   }
 
   public void setHighlight()
@@ -94,7 +94,7 @@ public class UnitController : MonoBehaviour, ISelectable
   public void setDeselect()
   {
     selected = false;
-    removeHighlight();
+    // removeHighlight();
   }
 
   public void removeHighlight()
