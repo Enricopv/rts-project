@@ -4,109 +4,126 @@ using UnityEngine.AI;
 
 interface ISelectable
 {
-  void setSelected();
-  void setDeselect();
 
   void setHighlight();
   void removeHighlight();
 
-  bool isSelected
+  bool IsSelected
   {
     get;
-    set;
   }
 
   string unitId
   {
     get;
   }
+
+  void setSelected();
+  void deSelect();
 }
 
-
-public class UnitController : MonoBehaviour, ISelectable
+namespace RTSGame
 {
-
-  private string generatedId;
-
-  public string unitId
+  public class UnitController : MonoBehaviour, ISelectable
   {
-    get
+
+
+    public RTSController OwningController;
+
+    public GameObject Model;
+
+
+    private string generatedId;
+
+    public string unitId
     {
-      return generatedId;
+      get
+      {
+        return generatedId;
+      }
     }
-  }
-
-  private Color baseColor;
-  private Color selectedColor;
-
-  public NavMeshAgent agent;
 
 
-  private bool highlighted;
 
-  public bool isHighlighted
-  {
-    get
+    private Color baseColor;
+    private Color selectedColor;
+
+    public NavMeshAgent agent;
+
+    private bool _isSelected;
+    public bool IsSelected
     {
-      return highlighted;
+      get
+      {
+        return _isSelected;
+      }
     }
-    set
+
+    private bool _isHighlighted;
+
+    public bool isHighlighted
     {
-      highlighted = value;
+      get
+      {
+        return _isHighlighted;
+      }
+      set
+      {
+        _isHighlighted = value;
+      }
     }
-  }
 
 
 
-  private bool selected;
-
-  public bool isSelected
-  {
-    get
+    void Awake()
     {
-      return selected;
+      generatedId = this.GetInstanceID().ToString();
+
     }
-    set
+
+    void Start()
     {
-      selected = value;
+      OwningController.ControllerState.AddSelectableUnit(this);
+
     }
-  }
 
-  void Awake()
-  {
-    generatedId = this.GetInstanceID().ToString();
-  }
+    public void setSelected()
+    {
+      _isSelected = true;
+    }
 
-  public void setSelected()
-  {
-    selected = true;
-    // setHighlight();
-  }
+    public void deSelect()
+    {
+      _isSelected = false;
+    }
 
-  public void setHighlight()
-  {
-    Material material = GetComponent<Renderer>().material;
-    ColorUtility.TryParseHtmlString("#5DF386", out selectedColor);
-    material.color = selectedColor;
-    highlighted = true;
-  }
+    public void setHighlight()
+    {
+      // Material material = GetComponent<Renderer>().material;
+      Material otherMat = GetComponentInChildren<Renderer>().material;
 
-  public void setDeselect()
-  {
-    selected = false;
-    // removeHighlight();
-  }
+      Debug.Log("Other Mat " + otherMat);
+      ColorUtility.TryParseHtmlString("#5DF386", out selectedColor);
+      // material.color = selectedColor;
+      otherMat.color = selectedColor;
+      _isHighlighted = true;
+    }
 
-  public void removeHighlight()
-  {
-    Material material = GetComponent<Renderer>().material;
-    ColorUtility.TryParseHtmlString("#5DF3F3", out baseColor);
-    material.color = baseColor;
-    highlighted = false;
-  }
 
-  public void MoveUnit(Vector3 point)
-  {
-    agent.SetDestination(point);
+
+    public void removeHighlight()
+    {
+      // Material material = GetComponent<Renderer>().material;
+      Material otherMat = GetComponentInChildren<Renderer>().material;
+      ColorUtility.TryParseHtmlString("#5DF3F3", out baseColor);
+      // material.color = baseColor;
+      otherMat.color = baseColor;
+      _isHighlighted = false;
+    }
+
+    public void MoveUnit(Vector3 point)
+    {
+      agent.SetDestination(point);
+    }
   }
 }

@@ -16,6 +16,8 @@ namespace RTSGame
 
     private RectTransform rt;
 
+    public RTSControllerState ControllerState;
+
     //The selection squares 4 corner positions
 
     //To determine if we are clicking with left mouse or holding down left mouse
@@ -24,17 +26,20 @@ namespace RTSGame
 
     Vector3 startScreenPos;
 
-    private ControllerState ControllerState;
     //If it was possible to create a square
     bool hasCreatedSquare;
 
 
     void Awake()
     {
+      // Set our Controller
+      ControllerState = new RTSControllerState(this);
 
+      // Gets a canvas if none was set
       if (canvas == null)
         canvas = FindObjectOfType<Canvas>();
 
+      // Reset selection box
       if (selectionBox != null)
       {
         // selectionBox.
@@ -45,18 +50,17 @@ namespace RTSGame
         rt.anchorMax = Vector2.one * .5f;
         selectionBox.gameObject.SetActive(false);
       }
-      ControllerState = new ControllerState();
     }
 
     void Start()
     {
       // We want to have a catalog of all selectable units for iterating over so we don't have to
       // Always be doing a call for all objects.
-      var allUnitControllers = FindObjectsOfType<MonoBehaviour>().OfType<ISelectable>();
-      foreach (UnitController unit in allUnitControllers)
-      {
-        ControllerState.State.SelectableUnits.Add(unit.unitId, unit);
-      }
+      // var allUnitControllers = FindObjectsOfType<MonoBehaviour>().OfType<ISelectable>();
+      // foreach (UnitController unit in allUnitControllers)
+      // {
+      //   ControllerState.AddSelectableUnit(unit);
+      // }
 
     }
 
@@ -89,7 +93,7 @@ namespace RTSGame
 
         if (Physics.Raycast(ray, out hit))
         {
-          foreach (KeyValuePair<string, UnitController> unit in ControllerState.State.CurrentSelectedUnits)
+          foreach (KeyValuePair<string, UnitController> unit in ControllerState.GetCurrectSelectedUnits)
           {
             unit.Value.MoveUnit(hit.point);
           }
@@ -101,7 +105,7 @@ namespace RTSGame
     {
       if (Input.GetMouseButtonDown(0))
       {
-        ControllerState.State.ClearUnits();
+        ControllerState.ClearUnits();
         startScreenPos = Input.mousePosition;
         Ray mouseToWorldRay = cam.ScreenPointToRay(Input.mousePosition);
         RaycastHit hitInfo;
@@ -115,13 +119,13 @@ namespace RTSGame
 
           if (unit != null)
           {
-            if (!unit.isSelected)
+            if (!unit.IsSelected)
             {
-              ControllerState.State.AddUnit(unit);
+              ControllerState.AddUnit(unit);
             }
             else
             {
-              ControllerState.State.RemoveUnit(unit);
+              ControllerState.RemoveUnit(unit);
             }
           }
         }
@@ -139,7 +143,7 @@ namespace RTSGame
           clickTime = Time.time;
         }
 
-        if (Time.time - clickTime > 0.1f)
+        if (Time.time - clickTime > delay)
         {
           hasCreatedSquare = true;
 
@@ -158,20 +162,20 @@ namespace RTSGame
 
 
           //Looping through all the selectables in our world (automatically added/removed through the Selectable OnEnable/OnDisable)
-          if (ControllerState.State.SelectableUnits.Count > 0)
+          if (ControllerState.GetSelectableUnits().Count > 0)
           {
-            foreach (KeyValuePair<string, UnitController> unit in ControllerState.State.SelectableUnits)
+            foreach (KeyValuePair<string, UnitController> unit in ControllerState.GetSelectableUnits())
             {
               //If the screenPosition of the worldobject is within our selection bounds, we can add it to our selection
               Vector3 screenPos = cam.WorldToScreenPoint(unit.Value.transform.position);
               screenPos.z = 0;
               if (b.Contains(screenPos))
               {
-                ControllerState.State.AddUnitHighlight(unit.Value);
+                ControllerState.AddUnitHighlight(unit.Value);
               }
               else
               {
-                ControllerState.State.RemoveUnitHightlight(unit.Value);
+                ControllerState.RemoveUnitHightlight(unit.Value);
               }
             }
           }
@@ -185,7 +189,7 @@ namespace RTSGame
           hasCreatedSquare = true;
           selectionBox.gameObject.SetActive(false);
           clickTime = 0f;
-          ControllerState.State.AddHighlightedUnits();
+          ControllerState.AddHighlightedUnits();
         }
       }
 
@@ -197,7 +201,7 @@ namespace RTSGame
       // [Escape] to clear unit selection
       if (Input.GetKey(KeyCode.Escape))
       {
-        ControllerState.State.ClearUnits();
+        ControllerState.ClearUnits();
 
       }
     }

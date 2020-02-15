@@ -7,86 +7,39 @@ using System.Linq;
 
 namespace RTSGame
 {
-  abstract class State
+  public class RTSControllerState
   {
-    public float _delay = 0.1f;
-    public float _clickTime = 0f;
 
-    public Dictionary<string, UnitController> _selectableUnits;
-    public Dictionary<string, UnitController> SelectableUnits
+    public RTSController OwningController;
+    public RTSControllerState(RTSController owner)
+    {
+      OwningController = owner;
+    }
+
+    protected Dictionary<string, UnitController> _selectableUnits = new Dictionary<string, UnitController>();
+    protected Dictionary<string, UnitController> SelectableUnits
     {
       get { return _selectableUnits; }
-      set { _selectableUnits = value; }
     }
 
-    public Dictionary<string, UnitController> _currentSelectedUnits;
-    public Dictionary<string, UnitController> CurrentSelectedUnits
+    public Dictionary<string, UnitController> _currentSelectedUnits = new Dictionary<string, UnitController>();
+    public Dictionary<string, UnitController> GetCurrectSelectedUnits
     {
       get { return _currentSelectedUnits; }
-      set { _currentSelectedUnits = value; }
     }
 
-    public Vector3 _startScreenPos;
-    public Vector3 StartScreenPos
+    public void AddSelectableUnit(UnitController unit)
     {
-      get { return _startScreenPos; }
-      set { _startScreenPos = value; }
+      Debug.Log("ADDME");
+      SelectableUnits.Add(unit.unitId, unit);
     }
 
-    protected bool _isClicking;
-    public bool IsClicking
+    public Dictionary<string, UnitController> GetSelectableUnits()
     {
-      get { return _isClicking; }
-      set { _isClicking = value; }
+      return SelectableUnits;
     }
 
-    protected bool _isHoldingDown;
-    public bool IsHoldingDown
-    {
-      get { return _isHoldingDown; }
-      set { _isHoldingDown = value; }
-    }
-
-    // public Camera _playerCamera;
-    // public Camera PlayerCamera
-    // {
-    //   get { return _playerCamera; }
-    //   set { _playerCamera = value; }
-    // }
-
-    public abstract void AddUnit(UnitController unit);
-    public abstract void RemoveUnit(UnitController unit);
-
-    public abstract void ClearUnits();
-    public abstract void AddHighlightedUnits();
-
-    public abstract void AddUnitHighlight(UnitController unit);
-    public abstract void RemoveUnitHightlight(UnitController unit);
-
-
-
-  }
-
-  class DefaultState : State
-  {
-    // public DefaultState(State state)
-    // {
-    // }
-
-    public DefaultState()
-    {
-      // this._currentSelectedUnits = units;
-      // this._playerCamera = _playerCamera;
-      Initialize();
-    }
-
-    private void Initialize()
-    {
-
-    }
-
-
-    public override void AddUnit(UnitController unit)
+    public void AddUnit(UnitController unit)
     {
       unit.setSelected();
       unit.setHighlight();
@@ -94,29 +47,28 @@ namespace RTSGame
 
     }
 
-    public override void RemoveUnit(UnitController unit)
+    public void RemoveUnit(UnitController unit)
     {
-      unit.setDeselect();
+      unit.deSelect();
       unit.removeHighlight();
       _currentSelectedUnits.Remove(unit.unitId);
     }
 
-    public override void ClearUnits()
+    public void ClearUnits()
     {
       if (_currentSelectedUnits.Count != 0)
       {
         foreach (KeyValuePair<string, UnitController> unit in _currentSelectedUnits)
         {
-          unit.Value.setDeselect();
+          unit.Value.deSelect();
           unit.Value.removeHighlight();
 
         }
         _currentSelectedUnits.Clear();
       }
-
     }
 
-    public override void AddHighlightedUnits()
+    public void AddHighlightedUnits()
     {
       foreach (KeyValuePair<string, UnitController> unit in _selectableUnits)
       {
@@ -126,101 +78,21 @@ namespace RTSGame
         }
       }
     }
-    public override void AddUnitHighlight(UnitController unit)
+    public void AddUnitHighlight(UnitController unit)
     {
       unit.setHighlight();
     }
 
-    public override void RemoveUnitHightlight(UnitController unit)
+    public void RemoveUnitHightlight(UnitController unit)
     {
       unit.removeHighlight();
     }
   }
 
-  class SelectedState : State
-  {
-    public SelectedState(State state)
-    {
-      Initialize();
-    }
-
-    private void Initialize()
-    {
-
-    }
-
-
-    public override void AddUnit(UnitController unit)
-    {
-      unit.setSelected();
-      unit.setHighlight();
-      _currentSelectedUnits.Add(unit.unitId, unit);
-    }
-    public override void RemoveUnit(UnitController unit)
-    {
-      unit.setDeselect();
-      unit.removeHighlight();
-      _currentSelectedUnits.Remove(unit.unitId);
-    }
 
 
 
-    public override void ClearUnits()
-    {
-      foreach (KeyValuePair<string, UnitController> unit in _currentSelectedUnits)
-      {
-        unit.Value.setDeselect();
-        unit.Value.removeHighlight();
 
-      }
-      _currentSelectedUnits.Clear();
-    }
-    public override void AddUnitHighlight(UnitController unit)
-    {
-      unit.removeHighlight();
-    }
-
-    public override void RemoveUnitHightlight(UnitController unit)
-    {
-      unit.removeHighlight();
-    }
-    public override void AddHighlightedUnits()
-    {
-      _currentSelectedUnits.Clear();
-      foreach (KeyValuePair<string, UnitController> unit in _selectableUnits)
-      {
-        if (unit.Value.isHighlighted)
-        {
-          _currentSelectedUnits.Add(unit.Value.unitId, unit.Value);
-        }
-      }
-    }
-
-
-  }
-  class ControllerState
-  {
-    private State _state;
-    public ControllerState()
-    {
-      State state = new DefaultState();
-      state.IsClicking = false;
-      state.IsHoldingDown = false;
-      state.SelectableUnits = new Dictionary<string, UnitController>();
-      state.CurrentSelectedUnits = new Dictionary<string, UnitController>();
-      // state.PlayerCamera = _playerCamera;
-      // state.CurrentSelectedUnits = new Dictionary<string, UnitController>();
-
-      this._state = state;
-    }
-
-    public State State
-    {
-      get { return _state; }
-      set { _state = value; }
-    }
-
-
-  }
 
 }
+
