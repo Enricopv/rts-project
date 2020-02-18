@@ -17,6 +17,24 @@ MonoBehaviour:
   lastModified: 637175701645874628
   LoadResult: 0
   FileSizes: []
+  Exists: 0
+--- !u!114 &-8000284816650543466
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Master.bank
+  m_EditorClassIdentifier: 
+  Path: ../../../Documents/FMOD Studio/rts FMOD/Build/Desktop/Master.bank
+  SubDir: 
+  lastModified: 637175755063440422
+  LoadResult: 0
+  FileSizes: []
   Exists: 1
 --- !u!114 &-7253666211609318448
 MonoBehaviour:
@@ -68,11 +86,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Path: ../../../Documents/FMOD Studio/rts FMOD/Build/Desktop/Master.strings.bank
   SubDir: 
-  lastModified: 637175701645941572
+  lastModified: 637175755063510909
   LoadResult: 0
   FileSizes:
   - Name: Desktop
-    Value: 750
+    Value: 810
   Exists: 1
 --- !u!114 &11400000
 MonoBehaviour:
@@ -88,15 +106,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   EditorBanks:
   - {fileID: -2268806187319686012}
-  - {fileID: -8789220551716460882}
+  - {fileID: -8000284816650543466}
   EditorEvents:
   - {fileID: 9124052753907389753}
+  - {fileID: 6503791678434688659}
   EditorParameters: []
   MasterBanks:
-  - {fileID: -8789220551716460882}
+  - {fileID: -8000284816650543466}
   StringsBanks:
   - {fileID: -2268806187319686012}
-  stringsBankWriteTime: 637175701645941572
+  stringsBankWriteTime: 637175755063510909
   cacheVersion: 3
 --- !u!114 &391926088102244912
 MonoBehaviour:
@@ -120,6 +139,24 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 0
   Length: 14000
+--- !u!114 &794823689459962485
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Master.bank
+  m_EditorClassIdentifier: 
+  Path: ../../../Documents/FMOD Studio/rts FMOD/Build/Desktop/Master.bank
+  SubDir: 
+  lastModified: 637175740740416008
+  LoadResult: 0
+  FileSizes: []
+  Exists: 0
 --- !u!114 &6090014557834430500
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -138,6 +175,29 @@ MonoBehaviour:
   LoadResult: 0
   FileSizes: []
   Exists: 0
+--- !u!114 &6503791678434688659
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Music/Trial Bounce
+  m_EditorClassIdentifier: 
+  Path: event:/Music/Trial Bounce
+  guid: b4eeca9a27076b4ea9167788a0137ddf
+  Banks:
+  - {fileID: -8000284816650543466}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 0
+  Parameters: []
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 19200
 --- !u!114 &9124052753907389753
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -153,7 +213,7 @@ MonoBehaviour:
   Path: event:/Ambience/Digital Storm 2
   guid: 7287a2782512764098953f03695af28e
   Banks:
-  - {fileID: -8789220551716460882}
+  - {fileID: -8000284816650543466}
   IsStream: 1
   Is3D: 0
   IsOneShot: 0
