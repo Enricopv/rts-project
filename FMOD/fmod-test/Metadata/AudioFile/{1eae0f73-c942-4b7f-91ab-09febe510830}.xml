@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.00.00">
+	<object class="AudioFile" id="{1eae0f73-c942-4b7f-91ab-09febe510830}">
+		<property name="assetPath">
+			<value>Jan 8 2020-4-getting there.mp3</value>
+		</property>
+		<property name="isStreaming">
+			<value>true</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>44.0999985</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>224.73142857142858</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{ff23ac89-a3ce-4b5e-adca-a2ac3f97919b}</destination>
+		</relationship>
+	</object>
+</objects>
