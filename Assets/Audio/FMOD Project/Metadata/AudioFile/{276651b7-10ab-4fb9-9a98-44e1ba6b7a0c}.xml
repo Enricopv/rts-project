@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.00.00">
+	<object class="AudioFile" id="{276651b7-10ab-4fb9-9a98-44e1ba6b7a0c}">
+		<property name="assetPath">
+			<value>Seamless Gameplay Loopy Doop.wav</value>
+		</property>
+		<property name="isStreaming">
+			<value>true</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>44.0999985</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>19.199999999999999</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{f03c75ac-a383-4082-862e-94ab6b617871}</destination>
+		</relationship>
+	</object>
+</objects>
