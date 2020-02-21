@@ -15,7 +15,7 @@ MonoBehaviour:
   Path: event:/Music/Trial Bounce
   guid: b4eeca9a27076b4ea9167788a0137ddf
   Banks:
-  - {fileID: 6045907831545380706}
+  - {fileID: 985059415906607901}
   IsStream: 1
   Is3D: 0
   IsOneShot: 0
@@ -73,17 +73,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   EditorBanks:
   - {fileID: 3123032462236187648}
-  - {fileID: 6045907831545380706}
+  - {fileID: 985059415906607901}
   EditorEvents:
   - {fileID: 258786625973165225}
   - {fileID: -7519384570964552320}
   - {fileID: 8426287011111922046}
   EditorParameters: []
   MasterBanks:
-  - {fileID: 6045907831545380706}
+  - {fileID: 985059415906607901}
   StringsBanks:
   - {fileID: 3123032462236187648}
-  stringsBankWriteTime: 637178132759946235
+  stringsBankWriteTime: 637178227484633214
   cacheVersion: 3
 --- !u!114 &258786625973165225
 MonoBehaviour:
@@ -100,7 +100,7 @@ MonoBehaviour:
   Path: event:/Ambience/Digital Storm 2
   guid: 7287a2782512764098953f03695af28e
   Banks:
-  - {fileID: 6045907831545380706}
+  - {fileID: 985059415906607901}
   IsStream: 1
   Is3D: 0
   IsOneShot: 0
@@ -108,6 +108,24 @@ MonoBehaviour:
   MinDistance: 0
   MaxDistance: 0
   Length: 14000
+--- !u!114 &985059415906607901
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Master.bank
+  m_EditorClassIdentifier: 
+  Path: FMOD/rts FMOD/Build/Desktop/Master.bank
+  SubDir: 
+  lastModified: 637178227485079330
+  LoadResult: 0
+  FileSizes: []
+  Exists: 1
 --- !u!114 &1538653897986655449
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -158,7 +176,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Path: FMOD/rts FMOD/Build/Desktop/Master.strings.bank
   SubDir: 
-  lastModified: 637178132759946235
+  lastModified: 637178227484633214
   LoadResult: 0
   FileSizes:
   - Name: Desktop
@@ -241,7 +259,7 @@ MonoBehaviour:
   lastModified: 637178132761240683
   LoadResult: 0
   FileSizes: []
-  Exists: 1
+  Exists: 0
 --- !u!114 &7670237398350542376
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -275,7 +293,7 @@ MonoBehaviour:
   Path: event:/Music/Curious Sway
   guid: e9708795087a7e41825dcd299d3ca98a
   Banks:
-  - {fileID: 6045907831545380706}
+  - {fileID: 985059415906607901}
   IsStream: 1
   Is3D: 0
   IsOneShot: 0
