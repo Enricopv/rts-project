@@ -1,5 +1,57 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-8764264931453046508
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Master.bank
+  m_EditorClassIdentifier: 
+  Path: FMOD/rts FMOD/Build/Desktop/Master.bank
+  SubDir: 
+  lastModified: 637180232470742725
+  LoadResult: 0
+  FileSizes: []
+  Exists: 0
+--- !u!114 &-8224131446839632284
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Curious Sway/Volume
+  m_EditorClassIdentifier: 
+  Name: Volume
+  Min: 0
+  Max: 1
+  Default: 0
+  Exists: 1
+--- !u!114 &-8081469237718055773
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Logic Test/Enemie Aproaches
+  m_EditorClassIdentifier: 
+  Name: Enemie Aproaches
+  Min: 0
+  Max: 1
+  Default: 0
+  Exists: 0
 --- !u!114 &-7519384570964552320
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15,7 +67,7 @@ MonoBehaviour:
   Path: event:/Music/Trial Bounce
   guid: b4eeca9a27076b4ea9167788a0137ddf
   Banks:
-  - {fileID: 985059415906607901}
+  - {fileID: -5123758236309829596}
   IsStream: 1
   Is3D: 0
   IsOneShot: 0
@@ -41,6 +93,41 @@ MonoBehaviour:
   LoadResult: 0
   FileSizes: []
   Exists: 0
+--- !u!114 &-5123758236309829596
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Master.bank
+  m_EditorClassIdentifier: 
+  Path: FMOD/rts FMOD/Build/Desktop/Master.bank
+  SubDir: 
+  lastModified: 637180235424345982
+  LoadResult: 0
+  FileSizes: []
+  Exists: 1
+--- !u!114 &-4360420011764154344
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Logic Test/Enemy approaches
+  m_EditorClassIdentifier: 
+  Name: Enemy approaches
+  Min: 0
+  Max: 1
+  Default: 0
+  Exists: 0
 --- !u!114 &-4158854902590184678
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -59,6 +146,48 @@ MonoBehaviour:
   LoadResult: 0
   FileSizes: []
   Exists: 1
+--- !u!114 &-2144180756617961126
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Toybox/Logic Test
+  m_EditorClassIdentifier: 
+  Path: event:/Toybox/Logic Test
+  guid: cdd586a05c48f04484d8287678a58717
+  Banks:
+  - {fileID: -5123758236309829596}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 0
+  Parameters:
+  - {fileID: 5429792356585148429}
+  MinDistance: 0
+  MaxDistance: 0
+  Length: 23640
+--- !u!114 &-415050714104302375
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Master.bank
+  m_EditorClassIdentifier: 
+  Path: FMOD/rts FMOD/Build/Desktop/Master.bank
+  SubDir: 
+  lastModified: 637180214389665330
+  LoadResult: 0
+  FileSizes: []
+  Exists: 0
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -73,17 +202,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   EditorBanks:
   - {fileID: 3123032462236187648}
-  - {fileID: 985059415906607901}
+  - {fileID: -5123758236309829596}
   EditorEvents:
   - {fileID: 258786625973165225}
   - {fileID: -7519384570964552320}
   - {fileID: 8426287011111922046}
+  - {fileID: -2144180756617961126}
   EditorParameters: []
   MasterBanks:
-  - {fileID: 985059415906607901}
+  - {fileID: -5123758236309829596}
   StringsBanks:
   - {fileID: 3123032462236187648}
-  stringsBankWriteTime: 637178227484633214
+  stringsBankWriteTime: 637180235424516393
   cacheVersion: 3
 --- !u!114 &258786625973165225
 MonoBehaviour:
@@ -100,7 +230,7 @@ MonoBehaviour:
   Path: event:/Ambience/Digital Storm 2
   guid: 7287a2782512764098953f03695af28e
   Banks:
-  - {fileID: 985059415906607901}
+  - {fileID: -5123758236309829596}
   IsStream: 1
   Is3D: 0
   IsOneShot: 0
@@ -144,6 +274,41 @@ MonoBehaviour:
   LoadResult: 0
   FileSizes: []
   Exists: 0
+--- !u!114 &1651959981073871080
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Master.bank
+  m_EditorClassIdentifier: 
+  Path: FMOD/rts FMOD/Build/Desktop/Master.bank
+  SubDir: 
+  lastModified: 637180217574366387
+  LoadResult: 0
+  FileSizes: []
+  Exists: 0
+--- !u!114 &1895587034171406319
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Logic Test/Enemie Aproaches
+  m_EditorClassIdentifier: 
+  Name: Enemie Aproaches
+  Min: 0
+  Max: 1
+  Default: 0
+  Exists: 0
 --- !u!114 &2949545343297252919
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -176,11 +341,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Path: FMOD/rts FMOD/Build/Desktop/Master.strings.bank
   SubDir: 
-  lastModified: 637178227484633214
+  lastModified: 637180235424516393
   LoadResult: 0
   FileSizes:
   - Name: Desktop
-    Value: 866
+    Value: 1020
   Exists: 1
 --- !u!114 &4202806674922865751
 MonoBehaviour:
@@ -219,6 +384,40 @@ MonoBehaviour:
   lastModified: 637177428742508306
   LoadResult: 0
   FileSizes: []
+  Exists: 0
+--- !u!114 &5429792356585148429
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Logic Test/Enemy approaches
+  m_EditorClassIdentifier: 
+  Name: Enemy approaches
+  Min: 0
+  Max: 1
+  Default: 0
+  Exists: 1
+--- !u!114 &5623291121917075146
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Curious Sway/Volume
+  m_EditorClassIdentifier: 
+  Name: Volume
+  Min: 0
+  Max: 1
+  Default: 0
   Exists: 0
 --- !u!114 &5680375387304280113
 MonoBehaviour:
@@ -260,6 +459,23 @@ MonoBehaviour:
   LoadResult: 0
   FileSizes: []
   Exists: 0
+--- !u!114 &7276625403133388624
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Curious Sway/Volume
+  m_EditorClassIdentifier: 
+  Name: Volume
+  Min: 0
+  Max: 1
+  Default: 0
+  Exists: 0
 --- !u!114 &7670237398350542376
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -293,11 +509,30 @@ MonoBehaviour:
   Path: event:/Music/Curious Sway
   guid: e9708795087a7e41825dcd299d3ca98a
   Banks:
-  - {fileID: 985059415906607901}
+  - {fileID: -5123758236309829596}
   IsStream: 1
   Is3D: 0
   IsOneShot: 0
-  Parameters: []
+  Parameters:
+  - {fileID: -8224131446839632284}
   MinDistance: 0
   MaxDistance: 0
   Length: 66000
+--- !u!114 &8635341036552857508
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Master.bank
+  m_EditorClassIdentifier: 
+  Path: FMOD/rts FMOD/Build/Desktop/Master.bank
+  SubDir: 
+  lastModified: 637177535804203719
+  LoadResult: 0
+  FileSizes: []
+  Exists: 0

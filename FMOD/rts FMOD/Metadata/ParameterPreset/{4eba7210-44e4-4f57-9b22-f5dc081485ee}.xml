@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.00.00">
+	<object class="ParameterPreset" id="{4eba7210-44e4-4f57-9b22-f5dc081485ee}">
+		<property name="name">
+			<value>Enemy approaches</value>
+		</property>
+		<relationship name="folder">
+			<destination>{117e6458-b698-4a0d-9953-e2f755c3e1f6}</destination>
+		</relationship>
+		<relationship name="parameter">
+			<destination>{dfce2375-b0bb-4621-88c8-9084d097b6b1}</destination>
+		</relationship>
+	</object>
+	<object class="GameParameter" id="{dfce2375-b0bb-4621-88c8-9084d097b6b1}">
+		<property name="initialValue">
+			<value>0</value>
+		</property>
+		<property name="seekSpeed">
+			<value>1.2999999523162842</value>
+		</property>
+	</object>
+</objects>
