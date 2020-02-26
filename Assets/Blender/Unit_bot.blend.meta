@@ -1,44 +1,11 @@
 fileFormatVersion: 2
-guid: a44544c3f907b234295a048ceff7074c
+guid: 497dbf57536c81e48a93f452613c08d4
 ModelImporter:
   serializedVersion: 19300
   internalIDToNameTable:
   - first:
-      74: -623603649343465320
-    second: Scene
-  - first:
-      74: -7081421572779720966
-    second: Armature|Cast_1
-  - first:
-      74: 8106560117437173504
-    second: Armature|cast_2
-  - first:
-      74: 1781693615863947247
-    second: Armature|Channel_1
-  - first:
-      74: 4422991082670433163
-    second: Armature|Channel_2
-  - first:
       74: 3187029567412706676
     second: Armature|death_1
-  - first:
-      74: -8945691123924629249
-    second: Armature|Idle
-  - first:
-      74: -7687615148488574393
-    second: Armature|interact_1
-  - first:
-      74: -7551964380084998518
-    second: Armature|Run
-  - first:
-      74: 6011252034943003854
-    second: Armature|shoot_1
-  - first:
-      74: -3458228671853032616
-    second: Armature|stunned_1
-  - first:
-      74: 8349542763059015795
-    second: Armature|Walk
   externalObjects: {}
   materials:
     materialImportMode: 1
