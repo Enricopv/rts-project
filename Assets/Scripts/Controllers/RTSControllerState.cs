@@ -16,6 +16,30 @@ namespace RTSGame
       OwningController = owner;
     }
 
+    protected Dictionary<string, EnemyController> _enemyUnits = new Dictionary<string, EnemyController>();
+    protected Dictionary<string, EnemyController> EnemeyUnits
+    {
+      get { return _enemyUnits; }
+    }
+
+    public void AddEnemyUnit(EnemyController unit)
+    {
+      _enemyUnits.Add(unit.unitId, unit);
+
+    }
+
+    public void RemoveEnemyUnit(EnemyController unit)
+    {
+      _enemyUnits.Remove(unit.unitId);
+    }
+
+    public Dictionary<string, EnemyController> getEnemyUnits()
+    {
+      return EnemeyUnits;
+    }
+
+
+
     protected Dictionary<string, UnitController> _selectableUnits = new Dictionary<string, UnitController>();
     protected Dictionary<string, UnitController> SelectableUnits
     {

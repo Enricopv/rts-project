@@ -1,6 +1,7 @@
 ﻿
 using UnityEngine;
 using UnityEngine.AI;
+using System.Collections.Generic;
 
 interface ISelectable
 {
@@ -27,6 +28,7 @@ namespace RTSGame
   public class UnitController : MonoBehaviour, ISelectable
   {
 
+    public float range = 10f;
 
     public RTSController OwningController;
 
@@ -73,7 +75,11 @@ namespace RTSGame
       }
     }
 
+    Vector3 currentDestination;
 
+    Animator animator;
+
+    bool canCombat = false;
 
     void Awake()
     {
@@ -85,8 +91,42 @@ namespace RTSGame
     void Start()
     {
       OwningController.ControllerState.AddSelectableUnit(this);
-
+      animator = GetComponentInChildren<Animator>();
     }
+
+    void Update()
+    {
+      float closeEnough = Vector3.Distance(currentDestination, transform.position);
+      if (closeEnough <= 2f)
+      { canCombat = true; }
+
+
+      if (canCombat)
+      {
+
+        foreach (KeyValuePair<string, EnemyController> enemy in OwningController.ControllerState.getEnemyUnits())
+        {
+          float distance = Vector3.Distance(enemy.Value.transform.position, transform.position);
+          if (distance <= range)
+          {
+
+            // Face the enemy
+            Vector3 direction = (enemy.Value.transform.position - transform.position).normalized;
+            Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0f, direction.z));
+            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
+
+            // Play animation
+            animator.SetBool("inCombat", true);
+
+            // Animation should fire a shoot event
+
+
+          }
+        }
+      }
+    }
+
+
 
     public void setSelected()
     {
@@ -133,7 +173,10 @@ namespace RTSGame
 
     public void MoveUnit(Vector3 point)
     {
+      canCombat = false;
+      currentDestination = point;
       agent.SetDestination(point);
+      animator.SetBool("inCombat", false);
     }
   }
 }
